@@ -1,3 +1,0 @@
-#!/bin/bash
-
-mv MODULENAME <<[.cus.package.name.python]>>

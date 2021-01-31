@@ -1,12 +1,12 @@
 {
     "package": {
         "name": {
-            "pypi": "python-module",
-            "python": "module",
-            "pretty": "Python Module"
+            "pypi": "crabatar",
+            "python": "crabatar",
+            "pretty": "Crabatar"
         },
         "version": "0.0.1",
-        "description": "It does things!"
+        "description": "Generate crab-themed avatars procedurally from usernames."
     },
     "author": {
         "name": "Jake Ledoux",

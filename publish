@@ -1,7 +1,7 @@
-if which python3 | grep -q <<[.cus.package.name.pypi]>>; then
+if which python3 | grep -q crabatar; then
     pip install --upgrade setuptools wheel twine
     python setup.py sdist bdist_wheel
-    python -m twine upload dist/* --repository <<[.cus.package.name.pypi]>> --skip-existing
+    python -m twine upload dist/* --repository crabatar --skip-existing
 else
-    echo You are not in the <<[.cus.package.name.pypi]>> environment.
+    echo You are not in the crabatar environment.
 fi

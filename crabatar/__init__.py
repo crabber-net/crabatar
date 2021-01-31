@@ -1,4 +1,4 @@
-""" <<[.cus.package.name.pretty]>>
+""" Crabatar
 """
 from .exceptions import SampleException
 from .models import SampleClass
