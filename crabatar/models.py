@@ -41,10 +41,10 @@ class Color:
 
 
 class Crabatar:
-    patterns = [utils.draw_angled_lines, utils.draw_horizontal_lines,
-                utils.draw_vertical_lines, utils.draw_overlapping_circles,
-                utils.draw_recessed_circles, utils.draw_recessed_triangles,
-                utils.draw_spinning_triangles]
+    patterns = [utils.draw_horizontal_lines, utils.draw_vertical_lines,
+                     utils.draw_angled_lines, utils.draw_wavy_lines,
+                     utils.draw_recessed_circles, utils.draw_recessed_triangles,
+                     utils.draw_overlapping_circles]
     crab_img = Image.open('crab.png')
 
     def __init__(self, username: str):
@@ -59,7 +59,7 @@ class Crabatar:
     def reseed(self):
         self.random.seed(self.hash.digest()[-20:])
 
-    def write_to_png(self, filename: str, size=512, inverted=False):
+    def generate_pattern(self, size=512):
         self.reseed()
 
         res = 10000000
@@ -68,31 +68,23 @@ class Crabatar:
         palette = Palette(Color.from_hsv(hue, saturation, 1))
         pattern_func = self.random.choice(Crabatar.patterns)
         pattern = pattern_func(size, palette)
+        return pattern
+
+    def write_avatar(self, filename: str, size=512, inverted=False):
+        pattern = self.generate_pattern(size)
         pattern = Image.fromarray(pattern.get_npimage())
         if inverted:
-            pattern.paste(Crabatar.crab_img, (0, 0), Crabatar.crab_img)
-            pattern.save(filename, 'PNG')
-        else:
             white_background = gizeh.Surface(width=size, height=size, bg_color=(1, 1, 1))
             white_background = Image.fromarray(white_background.get_npimage())
             white_background.paste(pattern, (0, 0), Crabatar.crab_img)
             white_background.save(filename, 'PNG')
+        else:
+            pattern.paste(Crabatar.crab_img, (0, 0), Crabatar.crab_img)
+            pattern.save(filename, 'PNG')
 
 class Palette:
     def __init__(self, root: 'Color'):
         self.root: 'Color' = root
-
-    def complimentary(self):
-        return [
-            self.root.rgb(),
-            self.root.rotate_hue(180).rgb()
-        ]
-
-    def regular(self, count: int):
-        colors = list()
-        for i in range(count):
-            colors.append(self.root.rotate_hue((360 // count) * i).rgb())
-        return colors
 
     def analogous(self, count: int, split_degrees: int):
         colors = list()
@@ -100,6 +92,23 @@ class Palette:
             colors.append(self.root.rotate_hue(
                 (split_degrees // count) * i - (split_degrees // 2)
             ).rgb())
+        return colors
+
+    def complimentary(self):
+        return [
+            self.root.rgb(),
+            self.root.rotate_hue(180).rgb()
+        ]
+
+    def monochromatic(self, count: int):
+        h, s, v = self.root.hsv()
+        return [Color.from_hsv(h, s - (idx / 10), v).rgb()
+                for idx in range(count)]
+
+    def regular(self, count: int):
+        colors = list()
+        for i in range(count):
+            colors.append(self.root.rotate_hue((360 // count) * i).rgb())
         return colors
 
     def split_complimentary(self, split_degrees: int = 30):

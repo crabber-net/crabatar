@@ -19,4 +19,4 @@ users = {username: Crabatar(username) for username in ('aram', 'ChrisDiFranco',
 
 for crab in users.values():
     print(f'{crab.username + ":":23} DONE')
-    crab.write_to_png(f'testout/{crab.username}.png')
+    crab.write_avatar(f'testout/{crab.username}.png')
