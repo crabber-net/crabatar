@@ -21,7 +21,7 @@ class Color:
         red, green, blue = self.rgb()
         return f'<Color ({red:1.2f}, {green:1.2f}, {blue:1.2f})>'
 
-    def __eq__(self, value, /):
+    def __eq__(self, value):
         if isinstance(value, Color):
             return (self.red, self.green, self.blue) \
                     == (value.red, value.green, value.blue)
