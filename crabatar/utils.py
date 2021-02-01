@@ -73,7 +73,7 @@ def draw_recessed_triangles(size: int, palette: 'models.Palette',
     """
     colors = palette.monochromatic(count)
     colors.reverse()
-    surface = gizeh.Surface(width=size, height=size)
+    surface = gizeh.Surface(width=size, height=size, bg_color=(1, 1, 1))
     radius = int(size * 1.5)
     for idx in range(count):
         color = colors[idx % len(colors)]
