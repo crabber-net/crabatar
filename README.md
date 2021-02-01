@@ -11,3 +11,5 @@ Generate crab-themed avatars procedurally from usernames.
 ``` bash
 pip install crabatar
 ```
+
+![Sample Avatars](sample.png)
