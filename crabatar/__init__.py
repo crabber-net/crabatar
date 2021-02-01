@@ -1,5 +1,5 @@
 """ Crabatar
 """
-from .models import Crabatar
+from .models import Color, Crabatar, Palette
 
-__all__ = ['Crabatar']
+__all__ = ['Color', 'Crabatar', 'Palette']
