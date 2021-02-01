@@ -5,7 +5,7 @@ with open('README.md') as f:
 
 setup(
     name='crabatar',
-    version='1.0.0',
+    version='1.0.1',
     description='Generate crab-themed avatars procedurally from usernames.',
     long_description=readme,
     long_description_content_type='text/markdown',
