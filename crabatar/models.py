@@ -16,6 +16,16 @@ class Color:
         self.green: int = green
         self.blue: int = blue
 
+    def __repr__(self):
+        red, green, blue = self.rgb()
+        return f'<Color ({red:1.2f}, {green:1.2f}, {blue:1.2f})>'
+
+    def __eq__(self, value, /):
+        if isinstance(value, Color):
+            return (self.red, self.green, self.blue) \
+                    == (value.red, value.green, value.blue)
+        return False
+
     def hsv(self) -> Tuple[float]:
         """ Get color as HSV.
         """
