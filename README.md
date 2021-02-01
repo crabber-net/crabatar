@@ -4,6 +4,8 @@
 
 Generate crab-themed avatars procedurally from usernames.
 
+*Developed for [Crabber](https://github.com/jakeledoux/crabber/)*
+
 ## Installation
 
 ``` bash
