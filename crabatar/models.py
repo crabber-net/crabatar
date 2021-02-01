@@ -3,6 +3,7 @@ import colorsys
 import gizeh
 import hashlib
 from PIL import Image
+import pkg_resources
 import random
 from typing import Tuple
 
@@ -45,7 +46,7 @@ class Crabatar:
                      utils.draw_angled_lines, utils.draw_wavy_lines,
                      utils.draw_recessed_circles, utils.draw_recessed_triangles,
                      utils.draw_overlapping_circles]
-    crab_img = Image.open('crab.png')
+    crab_img = Image.open(pkg_resources.resource_filename(__name__, 'crab.png'))
 
     def __init__(self, username: str):
         self.username: str = username
