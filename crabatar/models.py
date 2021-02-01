@@ -2,6 +2,7 @@ from . import utils
 import colorsys
 import gizeh
 import hashlib
+import io
 from PIL import Image
 import pkg_resources
 import random
@@ -104,6 +105,39 @@ class Crabatar:
         pattern = pattern_func(size, palette)
         return pattern
 
+    def make_avatar(self, size=512, inverted=False):
+        """ Creates an avatar image unique to this Crabatar.
+
+            :param size: Pixel width of resulting image.
+            :param inverted: Swaps colored and white sections of avatar.
+            :returns: Avatar as a Pillow Image
+        """
+        pattern = self.generate_pattern(size)
+        pattern = Image.fromarray(pattern.get_npimage())
+        if inverted:
+            white_background = gizeh.Surface(width=size, height=size,
+                                             bg_color=(1, 1, 1))
+            white_background = Image.fromarray(white_background.get_npimage())
+            white_background.paste(pattern, (0, 0), Crabatar.crab_img)
+            return white_background
+        else:
+            pattern.paste(Crabatar.crab_img, (0, 0), Crabatar.crab_img)
+            return pattern
+
+    def get_avatar_bytes(self, format: str = 'PNG', size=512, inverted=False):
+        """ Creates an avatar image unique to this Crabatar and encodes it in
+            an image format.
+
+            :param format: Image format to use. (See `Pillow.Image.save`)
+            :param size: Pixel width of resulting image.
+            :param inverted: Swaps colored and white sections of avatar.
+            :returns: The image file bytes
+        """
+        avatar = self.make_avatar(size=size, inverted=inverted)
+        avatar_bytes = io.BytesIO()
+        avatar.save(avatar_bytes, format)
+        return avatar_bytes
+
     def write_avatar(self, filename: str, format: str = 'PNG', size=512,
                      inverted=False):
         """ Creates an avatar image unique to this Crabatar and writes it to an
@@ -114,17 +148,8 @@ class Crabatar:
             :param size: Pixel width of resulting image.
             :param inverted: Swaps colored and white sections of avatar.
         """
-        pattern = self.generate_pattern(size)
-        pattern = Image.fromarray(pattern.get_npimage())
-        if inverted:
-            white_background = gizeh.Surface(width=size, height=size,
-                                             bg_color=(1, 1, 1))
-            white_background = Image.fromarray(white_background.get_npimage())
-            white_background.paste(pattern, (0, 0), Crabatar.crab_img)
-            white_background.save(filename, format)
-        else:
-            pattern.paste(Crabatar.crab_img, (0, 0), Crabatar.crab_img)
-            pattern.save(filename, format)
+        avatar = self.make_avatar(size=size, inverted=inverted)
+        avatar.save(filename, format)
 
 
 class Palette:

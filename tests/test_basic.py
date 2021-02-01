@@ -1,5 +1,6 @@
 from .context import *
 import os
+from PIL import Image
 
 
 class TestModels:
@@ -37,6 +38,13 @@ class TestModels:
         # Test generate_pattern
         pattern = jake.generate_pattern(512)
         assert pattern.width == pattern.height == 512
+
+        # Test get_avatar_bytes
+        avatar_bytes = jake.get_avatar_bytes(format='JPEG', size=512)
+
+        # Test bytes are usable
+        loaded_image = Image.open(avatar_bytes)
+        assert loaded_image.width == 512
 
         # Test write_avatar
         filename = 'jake.png'
